@@ -44,14 +44,9 @@ class AuthController extends GetxController {
   void register(String email, String password, String username) async {
     try {
       EasyLoading.show(status: 'loading...');
-      Map<String, String> data = {'username': username, 'email': email};
+
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .set(data);
 
       /// upload image to firebase storage
       if (profile != null) {
@@ -62,6 +57,19 @@ class AuthController extends GetxController {
         final uploadTask = reference.putFile(profile!);
         TaskSnapshot taskSnapshot = await uploadTask;
         String imageURL = await taskSnapshot.ref.getDownloadURL();
+
+        ///save user info to firebasefirestore
+        ///
+        Map<String, String> data = {
+          'username': username,
+          'email': email,
+          'profile': imageURL
+        };
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set(data);
+
         if (kDebugMode) {
           print('uploaded ${imageURL}');
         }

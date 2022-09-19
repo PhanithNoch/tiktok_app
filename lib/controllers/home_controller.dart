@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tiktok_app/bindings/video_preview_binding.dart';
 import 'package:tiktok_app/views/video_preview_screen.dart';
 import 'dart:io';
 
@@ -8,9 +9,11 @@ class HomeController extends GetxController {
     try {
       final video = await ImagePicker().pickVideo(source: ImageSource.gallery);
       if (video != null) {
-        Get.to(VideoPreviewScreen(
-          videoPath: File(video.path),
-        ));
+        Get.to(
+            VideoPreviewScreen(
+              videoPath: File(video.path),
+            ),
+            binding: VideoPreviewBinding());
 
         /// do action
       }

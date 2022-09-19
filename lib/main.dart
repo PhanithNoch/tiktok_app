@@ -23,8 +23,9 @@ class MyApp extends StatelessWidget {
       initialBinding: AuthBinding(),
       title: 'Tiktok App',
       theme: ThemeData(
-        primarySwatch: Colors.red,
-      ).copyWith(
+              // primarySwatch: Colors.blue,
+              )
+          .copyWith(
         scaffoldBackgroundColor: Colors.black54,
         textTheme: const TextTheme(
           headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
