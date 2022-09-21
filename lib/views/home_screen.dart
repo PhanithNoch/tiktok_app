@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tiktok_app/controllers/home_controller.dart';
+import 'package:tiktok_app/controllers/video_player_controller.dart';
+import 'package:tiktok_app/views/video_player_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,9 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
   final controller = Get.find<HomeController>();
   final List lstScreen = [
-    const Center(
-      child: Text('Home Screen'),
-    ),
+    VideoPlayerScreen(),
     const Center(
       child: Text('Search Screen'),
     ),

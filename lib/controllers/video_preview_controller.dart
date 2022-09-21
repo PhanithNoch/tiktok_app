@@ -18,7 +18,7 @@ class VideoPreviewController extends GetxController {
     String uid = FirebaseAuth.instance.currentUser!.uid;
     print('user id :${uid}');
 
-    DocumentSnapshot documentSnapshot =
+    DocumentSnapshot user =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
     final docs = await FirebaseFirestore.instance.collection('videos').get();
 
@@ -34,6 +34,7 @@ class VideoPreviewController extends GetxController {
       'share': 0,
       'thumbnail': thumbnailURL,
       'videoURL': videoURL,
+      'profile': (user.data() as Map)['profile']
       // 'profile':(documentSnapshot.data() as Map)['']
     };
 
@@ -49,7 +50,7 @@ class VideoPreviewController extends GetxController {
 
   compressVideo(String videoPath) async {
     final mediaInfo = await VideoCompress.compressVideo(videoPath,
-        quality: VideoQuality.LowQuality);
+        quality: VideoQuality.MediumQuality);
     return mediaInfo!.file;
   }
 
@@ -61,7 +62,7 @@ class VideoPreviewController extends GetxController {
     final uploadTask = reference.putFile(thumbnail);
 
     TaskSnapshot taskSnapshot = await uploadTask;
-    String imageURL = await taskSnapshot.ref.getDownloadURL();
+    return await taskSnapshot.ref.getDownloadURL();
   }
 
   uploadToStorage(String uid, String video) async {
@@ -70,6 +71,6 @@ class VideoPreviewController extends GetxController {
     final uploadTask = reference.putFile(await compressVideo(video));
 
     TaskSnapshot taskSnapshot = await uploadTask;
-    String imageURL = await taskSnapshot.ref.getDownloadURL();
+    return await taskSnapshot.ref.getDownloadURL();
   }
 }
